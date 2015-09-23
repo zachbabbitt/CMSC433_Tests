@@ -1,7 +1,11 @@
 package cmsc433.p1.tests;
 
 import static org.junit.Assert.*;
+
+import java.util.List;
+
 import cmsc433.p1.AuctionServer;
+import cmsc433.p1.Item;
 
 public class HansfordStudentTest {
 
@@ -163,6 +167,13 @@ public class HansfordStudentTest {
 		}
 		
 		// This item should be rejected, since the server is at capacity.
+		assertTrue(-1 == auctionServer.submitItem("Bobby", "ToyHelicopter", 8, 100));
+		
+		// Test that messing with the returned list from getItems() does not mess up the server
+		List<Item> items = auctionServer.getItems();
+		assertEquals(AuctionServer.serverCapacity, items.size());
+		items.remove(0);
+		assertEquals(AuctionServer.serverCapacity, auctionServer.getItems().size());
 		assertTrue(-1 == auctionServer.submitItem("Bobby", "ToyHelicopter", 8, 100));
 	}
 
